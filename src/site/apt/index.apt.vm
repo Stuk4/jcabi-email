@@ -41,18 +41,17 @@ Object-Oriented Email Sending SDK
   It is as simple as this:
 
 +--
-import com.jcabi.immutable.Array;
-import com.jcabi.email.Enclosure;
 import com.jcabi.email.Envelope;
-import com.jcabi.email.Postmap;
-import com.jcabi.email.wire.SMTP;
-import com.jcabi.email.Stamp;
+import com.jcabi.email.Postman;
+import com.jcabi.email.Protocol;
+import com.jcabi.email.Token;
 import com.jcabi.email.enclosure.EnBinary;
 import com.jcabi.email.enclosure.EnPlain;
 import com.jcabi.email.stamp.StBCC;
 import com.jcabi.email.stamp.StRecipient;
 import com.jcabi.email.stamp.StSender;
 import com.jcabi.email.stamp.StSubject;
+import com.jcabi.email.wire.SMTP;
 
 Postman postman = new Postman.Default(
   new SMTP(
@@ -62,23 +61,20 @@ Postman postman = new Postman.Default(
   )
 );
 postman.send(
-  new Envelope.MIME(
-    new Array<Stamp>(
-      new StSender("Yegor Bugayenko <yegor@jcabi.com>"),
-      new StRecipient("Jeff Lebowski <jeff@gmail.com>"),
-      new StSubject("dude, how are you?"),
-      new StBCC("my-boss@jcabi.com")
-    ),
-    new Array<Enclosure>(
-      new EnPlain("Hi, long time no see! :) Check my pic!"),
-      new EnBinary(
-        new File("/tmp/picture.gif"),
-        "my-picture.gif",
-        "image/gif"
+  new Envelope.MIME()
+  .with(new StSender("Yegor Bugayenko <yegor@jcabi.com>"))
+  .with(new StRecipient("Jeff Lebowski", "jeff@gmail.com"))
+  .with(new StSubject("dude, how are you?"))
+  .with(new StBCC("my-boss@jcabi.com"))
+  .with(new EnPlain("Hi, long time no see! Check my pic!"))
+  .with(
+  new EnBinary(
+    new File("/tmp/picture.gif"),
+      "my-picture.gif",
+      "image/gif"
+        )
       )
-    )
-  )
-);
+    );
 +--
 
   The only dependency you need is
